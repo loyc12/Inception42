@@ -1,0 +1,83 @@
+Objective:
+
+The project focuses on expanding your understanding of system administration through Docker. You'll create virtual Docker images on a personal virtual machine.
+
+General Guidelines:
+
+Conduct the project on a Virtual Machine.
+Store all configuration files in a 'srcs' folder.
+Create a Makefile at the directory's root to automate the setup of your application using docker-compose.yml.
+Familiarize yourself with Docker concepts by reading relevant documentation.
+
+
+Mandatory Requirements:
+
+Set up an infrastructure with various services using Docker Compose.
+Docker images should have names matching their corresponding services.
+Each service runs in a dedicated container.
+Build containers from either the penultimate stable version of Alpine or Debian.
+Write Dockerfiles for each service and reference them in docker-compose.yml using the Makefile.
+
+Containers to set up:
+- NGINX with TLSv1.2 or TLSv1.3.
+- WordPress + php-fpm.
+- MariaDB.
+
+Use volumes for WordPress database and website files.
+Establish a docker-network connecting containers.
+Ensure containers restart after crashes.
+Avoid using hacky methods to run containers.
+Use a proper network setup in docker-compose.yml.
+Do not use commands running infinite loops as entrypoints.
+Set up WordPress database with specific user requirements.
+Volumes accessible at '/home/login/data' on the host machine.
+Configure 'login.42.fr' as the domain pointing to your local IP.
+Avoid using the 'latest' tag in Docker.
+No passwords in Dockerfiles.
+Mandatory use of environment variables, preferably stored in a .env file.
+
+
+Digestible Steps:
+
+Step 1: Set Up Virtual Machine
+Install and configure a virtual machine environment.
+
+Step 2: Create Directory Structure
+Create the 'srcs' folder and the required sub-folders and files as shown in the example.
+
+Step 3: Write Dockerfiles
+For each service (NGINX, WordPress, MariaDB), write a Dockerfile with specific configurations.
+
+Step 4: Create docker-compose.yml
+Set up docker-compose.yml to define and manage the services and network.
+
+Step 5: Implement Makefile
+Create a Makefile to automate the building and setup of the Docker images and containers.
+
+Step 6: NGINX Configuration
+Set up an NGINX container with TLSv1.2 or TLSv1.3.
+
+Step 7: WordPress & MariaDB Configuration
+Configure WordPress + php-fpm and MariaDB containers according to specifications.
+
+Step 8: Volume Setup
+Create volumes for WordPress database and website files.
+
+Step 9: Network Configuration
+Establish a docker-network to connect the containers.
+
+Step 10: Container Restart & Best Practices
+Ensure containers restart on crash and avoid hacky methods to run containers.
+
+Step 11: Environment Variables
+Set up environment variables as required, storing them in a .env file.
+Step 12: Test & Validate
+
+Test the setup to ensure all services work as expected and validate against the assignment requirements.
+
+Step 13: Documentation & Submission
+Document your setup, configurations, and any challenges faced.
+Ensure no sensitive information (credentials, API keys) is exposed, and all required files are present.
+
+Submit the assignment as per the submission guidelines.
+Remember to read and understand each section carefully, and always refer to the provided examples and guidelines while working on the assignment. Good luck!
