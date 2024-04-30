@@ -1,0 +1,77 @@
+# - The docker-compose.yml file is used to define the services that make up the application
+
+# - These services allow the application to run in a containerized environment
+services:
+
+  # - This service is used as a web server
+  nginx:
+
+    restart: always
+    container_name: nginx
+    build:
+      context: ./requirements/nginx
+    volumes:
+      - ./data/wordpress:/var/www/html
+    networks:
+      - network
+    ports:
+      - "443:443"
+
+  # - This service is used as a database server
+  mariadb:
+
+    restart: always
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+    networks:
+      - network
+    env_file:
+      - .env
+
+  # - This service is used as a content management system
+  wordpress:
+
+    restart: always
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress
+    volumes:
+      - ./data/wordpress:/var/www/html
+    networks:
+      - network
+    env_file:
+      - .env
+    ports:
+      - "443:443"
+    depends_on:
+      - mariadb
+
+
+# - This network are used to connect the services
+networks:
+  network:
+    driver: bridge
+
+# - These volumes are used to keep the data of the services persistant between restarts
+volumes:
+
+  # - This volume is used to keep the data of the database
+  mariadb_data:
+
+    driver: local
+    driver_opts:
+      device: /home/llord/data/mysql
+      type: none
+      o: bind
+
+  # - This volume is used to keep the data of the wordpress and nginx
+  wordpress_data:
+
+    driver: local
+    driver_opts:
+      device: /home/llord/data/wordpress
+      type: none
+      o: bind
