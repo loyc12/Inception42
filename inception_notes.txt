@@ -45,34 +45,34 @@ Install and configure a virtual machine environment.
 Step 2: Create Directory Structure
 Create the 'srcs' folder and the required sub-folders and files as shown in the example.
 
-Step 3: Write Dockerfiles
-For each service (NGINX, WordPress, MariaDB), write a Dockerfile with specific configurations.
+Step 3: Implement Makefile
+Create a Makefile to automate the building and setup of the Docker images and containers.
 
 Step 4: Create docker-compose.yml
 Set up docker-compose.yml to define and manage the services and network.
 
-Step 5: Implement Makefile
-Create a Makefile to automate the building and setup of the Docker images and containers.
-
-Step 6: NGINX Configuration
-Set up an NGINX container with TLSv1.2 or TLSv1.3.
-
-Step 7: WordPress & MariaDB Configuration
-Configure WordPress + php-fpm and MariaDB containers according to specifications.
-
-Step 8: Volume Setup
+Step 5: Volume Setup
 Create volumes for WordPress database and website files.
 
-Step 9: Network Configuration
+Step 6: Network Configuration
 Establish a docker-network to connect the containers.
 
-Step 10: Container Restart & Best Practices
+Step 7: Container Restart & Best Practices
 Ensure containers restart on crash and avoid hacky methods to run containers.
 
-Step 11: Environment Variables
+Step 8: Environment Variables
 Set up environment variables as required, storing them in a .env file.
-Step 12: Test & Validate
 
+Step 9: Write Dockerfiles
+For each service (NGINX, WordPress, MariaDB), write a Dockerfile with specific configurations.
+
+Step 10: NGINX Configuration
+Set up an NGINX container with TLSv1.2 or TLSv1.3.
+
+Step 11: WordPress & MariaDB Configuration
+Configure WordPress + php-fpm and MariaDB containers according to specifications.
+
+Step 12: Test & Validate
 Test the setup to ensure all services work as expected and validate against the assignment requirements.
 
 Step 13: Documentation & Submission
