@@ -9,9 +9,11 @@ services:
     restart: always
     container_name: nginx
     build:
-      context: ./requirements/nginx
+      context: ./requirements/nginx/
     volumes:
       - ./data/wordpress:/var/www/html
+#   image:
+#     - nginx:42
     networks:
       - network
     ports:
@@ -23,7 +25,9 @@ services:
     restart: always
     container_name: mariadb
     build:
-      context: ./requirements/mariadb
+      context: ./requirements/mariadb/
+#   image:
+#     - mariadb:42
     volumes:
       - ./data/mariadb:/var/lib/mysql
     networks:
@@ -37,15 +41,17 @@ services:
     restart: always
     container_name: wordpress
     build:
-      context: ./requirements/wordpress
+      context: ./requirements/wordpress/
+#   image:
+#     - wordpress:42
     volumes:
       - ./data/wordpress:/var/www/html
     networks:
       - network
     env_file:
       - .env
-    ports:
-      - "443:443"
+#   ports:
+#     - "443:443"
     depends_on:
       - mariadb
 
@@ -53,6 +59,7 @@ services:
 # - This network are used to connect the services
 networks:
   network:
+    name: network
     driver: bridge
 
 # - These volumes are used to keep the data of the services persistant between restarts
@@ -60,16 +67,16 @@ volumes:
 
   # - This volume is used to keep the data of the database
   mariadb_data:
-
+    name: mariadbdb
     driver: local
     driver_opts:
-      device: /home/llord/data/mysql
+      device: /home/llord/data/mariadb
       type: none
       o: bind
 
   # - This volume is used to keep the data of the wordpress and nginx
   wordpress_data:
-
+    name: wordpress
     driver: local
     driver_opts:
       device: /home/llord/data/wordpress
