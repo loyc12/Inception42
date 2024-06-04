@@ -23,14 +23,14 @@ Y
 Y
 _EOF_
 
-# Add a root user on 127.0.0.1 to allow remote connexion
-# Flush privileges allow to your sql tables to be updated automatically when you modify it
-# mysql -uroot launch mysql command line client
+# add a root user on 127.0.0.1 to allow remote connexion
+# flush privileges allow to the sql tables to be updated automatically when they are modified
+# mysql -uroot launches mysql command line client
 echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PSWD'; FLUSH PRIVILEGES;" | mysql -uroot
 
 echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$USER_NAME'@'%' IDENTIFIED BY '$MYSQL_PSWD'; FLUSH PRIVILEGES;" | mysql -u root
 
-#Import database in the mysql command line
+# imports database in the mysql command line
 mysql -uroot -p$MYSQL_ROOT_PSWD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql
 
 fi
@@ -40,3 +40,4 @@ fi
 exec "$@"
 
 # WIP
+# replace root pswd with .env variable
