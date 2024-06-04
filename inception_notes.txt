@@ -63,6 +63,8 @@ Ensure containers restart on crash and avoid hacky methods to run containers.
 Step 8: Environment Variables
 Set up environment variables as required, storing them in a .env file.
 
+======== HERE ========
+
 Step 9: Write Dockerfiles
 For each service (NGINX, WordPress, MariaDB), write a Dockerfile with specific configurations.
 
