@@ -3,6 +3,7 @@
 *.vscode
 *.env
 *Run
+*/data
 
 # Prerequisites
 *.d
