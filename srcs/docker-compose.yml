@@ -55,7 +55,6 @@ services:
     depends_on:
       - mariadb
 
-
 # - This network are used to connect the services
 networks:
   network:

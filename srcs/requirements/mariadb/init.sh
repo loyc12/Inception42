@@ -11,9 +11,7 @@ then
 else
 
 # forces us to connect with the root password
-
 mysql_secure_installation << _EOF_
-
 Y
 root4life
 root4life
