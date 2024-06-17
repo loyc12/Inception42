@@ -10,35 +10,41 @@ then
 	echo "Database already exists"
 else
 
+mysql_install_db --datadir=/var/lib/mysql --user="${USER_NAME}" --skip-test-db >> /dev/null
+
 # forces us to connect with the root password
 mysql_secure_installation << _EOF_
+
 Y
-root4life
-root4life
+${MYSQL_ROOT_PSWD}
+${MYSQL_ROOT_PSWD}
 Y
 n
 Y
 Y
+
 _EOF_
 
-# add a root user on 127.0.0.1 to allow remote connexion
-# flush privileges allow to the sql tables to be updated automatically when they are modified
-# mysql -uroot launches mysql command line client
-echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PSWD'"
+# Initiates the database via the mysql cli ( called via mysql -uroot)
+mysql -uroot --bootstrap << _EOF_
+
+# The flush allows the sql tables to be updated automatically when they are modified
 echo "FLUSH PRIVILEGES;" | mysql -uroot
 
-echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE"
-echo "GRANT ALL ON $MYSQL_DATABASE.* TO '$USER_NAME'@'%' IDENTIFIED BY '$MYSQL_PSWD'"
+# Creates the initial database, since it doesn't exist yet
+echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE" | mysql -uroot
+
+# Adds a root user on 127.0.0.1 to allow remote connexion
+echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PSWD}" | mysql -uroot
+
+# Adds an admin user on 127.0.0.1
+echo "GRANT ALL PRIVILEGES ON '${MYSQL_DATABASE}'.* TO '${USER_NAME}'@'%' IDENTIFIED BY '${MYSQL_PSWD}' WITH GRANT OPTION" | mysql -uroot
+
 echo "FLUSH PRIVILEGES;" | mysql -uroot
 
-# imports database in the mysql command line
-mysql -uroot -p$MYSQL_ROOT_PSWD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql
-
+_EOF_
 fi
 
-/etc/init.d/mysql stop
-
-exec "$@"
+exec mysqld_safe
 
 # WIP
-# replace root pswd with .env variable

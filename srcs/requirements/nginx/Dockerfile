@@ -1,23 +1,28 @@
 FROM	debian:buster
 
-# installs dependencies
-RUN		apt-get update
-RUN		apt-get install -y nginx
-RUN 	apt-get install -y openssl
+# Installs dependencies
+RUN	apt-get update && apt-get -y upgrade
+RUN	apt-get install -y nginx
+RUN apt-get install -y openssl
 
-# nginx SSL
+# Deletes the cache and the package lists
+RUN	rm -rf /var/lib/apt/lists/*
+
+# Sets up the ssl certificate
 RUN mkdir /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-       -out /etc/nginx/ssl/"$USER_NAME".crt \
-       -keyout /etc/nginx/ssl/"$USER_NAME".key \
-       -subj "/C=FR/ST=Paris/L=Paris/O=42 School/OU="$USER_NAME"/CN="$USER_NAME"/"
+       -out /etc/nginx/ssl/"$LOGIN".crt \
+       -keyout /etc/nginx/ssl/"$LOGIN".key \
+       -subj "/C=CA/ST=Quebec/L=Quebec/O=42 School/OU=42_Quebec/CN="$DOMAIN_NAME"/"
 
-COPY ./nginx.conf /etc/nginx/conf.d
+# Copies the nginx configuration file
+COPY ./nginx.conf /etc/nginx/conf.d/
+
+# Creates the directory for the socket file
 RUN mkdir -p /run/nginx
 
-# port used
+# Port used by the container
 EXPOSE	443
 
+# Starts the nginx service
 CMD ["nginx", "-g", "daemon off;"]
-
-# WIP
