@@ -5,7 +5,7 @@ mysql_install_db
 
 # checks if the database exists
 
-if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]
+if [ -d "/var/lib/mysql/$MYSQL_DTBS_NAME" ]
 then
 	echo "Database already exists"
 else
@@ -32,13 +32,13 @@ mysql -uroot --bootstrap << _EOF_
 echo "FLUSH PRIVILEGES;" | mysql -uroot
 
 # Creates the initial database, since it doesn't exist yet
-echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE" | mysql -uroot
+echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DTBS_NAME" | mysql -uroot
 
 # Adds a root user on 127.0.0.1 to allow remote connexion
 echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PSWD}" | mysql -uroot
 
 # Adds an admin user on 127.0.0.1
-echo "GRANT ALL PRIVILEGES ON '${MYSQL_DATABASE}'.* TO '${USER_NAME}'@'%' IDENTIFIED BY '${MYSQL_PSWD}' WITH GRANT OPTION" | mysql -uroot
+echo "GRANT ALL PRIVILEGES ON '${MYSQL_DTBS_NAME}'.* TO '${USER_NAME}'@'%' IDENTIFIED BY '${MYSQL_PSWD}' WITH GRANT OPTION" | mysql -uroot
 
 echo "FLUSH PRIVILEGES;" | mysql -uroot
 

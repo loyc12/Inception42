@@ -27,7 +27,7 @@ RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
 # Copies the .conf in the html directory
-COPY ./wordpress.conf /etc/php/7.3/fpm/pool.d/
+COPY ./www.conf /etc/php/7.3/fpm/pool.d/
 
 # Creates the directory for the socket file
 RUN mkdir /run/php

@@ -13,20 +13,18 @@ RUN rm -rf /var/lib/apt/lists/*
 # Ensures that /var/run/mysqld (used for socket and lock files) is always writable
 RUN mkdir -p /var/run/mysqld
 RUN chown -R mysql:mysql /var/run/mysqld
-RUN chmod 777 /var/run/mysqld
+RUN chmod 755 /var/run/mysqld
 
 # port used
 EXPOSE 3306
 
-# Copies the init script, the .conf and .sql files
+# Copies the .sh and .conf files
 COPY ./init.sh /usr/local/bin/
 COPY ./mariadb.conf /etc/mysql/mariadb.d
-### COPY ./wordpress.sql /usr/local/bin/
 
 # Sets appropriate permissions
 RUN chmod +x /usr/local/bin/init.sh
-RUN chmod 644 /etc/mysql/mariadb.d/mariadb.conf
-### RUN chmod 644 /usr/local/bin/wordpress.sql
+RUN chmod 755 /etc/mysql/mariadb.d
 
 # Sets the init script as the entrypoint, which means it will be executed when the container is started
 ENTRYPOINT [ "/usr/local/bin/init.sh" ]
