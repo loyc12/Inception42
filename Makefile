@@ -9,7 +9,7 @@ include Colours.mk
 DEFAULT_GOAL: all
 .PHONY: all build up \
 		close down \
-		rerun re \
+		run re \
 		clear clean \
 
 #------------------------------------------------------------------------------#
@@ -19,6 +19,7 @@ DEFAULT_GOAL: all
 # For standard compilation
 all: up
 
+run: build
 build: up
 up:
 	@echo "$(YELLOW)\nStarting all services\n $(DEFCOL)"
@@ -46,9 +47,17 @@ re:
 clear: clean
 clean: down
 	@echo "$(YELLOW)\nRemoving all services\n $(DEFCOL)"
-	$(HIDE) docker stop $$(docker ps -qa);\
-	$(HIDE) docker rm $$(docker ps -qa);\
-	$(HIDE) docker rmi -f $$(docker images -qa);\
-	$(HIDE) docker volume rm $$(docker volume ls -q);\
-	$(HIDE) docker network rm $$(docker network ls -q);\
+	$(HIDE) if [ "$$(docker ps -qa)" ]; then \
+		docker stop $$(docker ps -qa); \
+		docker rm $$(docker ps -qa); \
+	fi
+	$(HIDE) if [ "$$(docker images -qa)" ]; then \
+		docker rmi -f $$(docker images -qa); \
+	fi
+	$(HIDE) if [ "$$(docker volume ls -q)" ]; then \
+		docker volume rm $$(docker volume ls -q); \
+	fi
+	$(HIDE) if [ "$$(docker network ls -q | wc -l)" -gt 3 ]; then \
+		docker network rm $$(docker network ls -q | sed -n '3p'); \
+	fi
 	@echo "$(RED)\nAll services removed\n $(DEFCOL)"
