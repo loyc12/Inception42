@@ -16,8 +16,8 @@ mysql_install_db --datadir=/var/lib/mysql --user="${USER_NAME}" --skip-test-db >
 mysql_secure_installation << _EOF_
 
 Y
-${MYSQL_ROOT_PSWD}
-${MYSQL_ROOT_PSWD}
+"${MYSQL_ROOT_PSWD}"
+"${MYSQL_ROOT_PSWD}"
 Y
 n
 Y
@@ -25,7 +25,9 @@ Y
 
 _EOF_
 
-# Initiates the database via the mysql cli ( called via mysql -uroot)
+#mysqladmin --user==root password "${MYSQL_ROOT_PSWD}"
+
+# Initiates the database via the mysql cli
 mysql --user=root --bootstrap << _EOF_
 
 # The flush allows the sql tables to be updated automatically when they are modified

@@ -24,7 +24,7 @@ fi
 
 # Launches PHP-FPM in the forground and not as a daemon
 # This means that the process will not be detached from the terminal
-# php-fpm -F -R
+	/usr/sbin/php-fpm7.4 -F
 
 ############################### V - WIP - V ###############################
 #

@@ -16,6 +16,8 @@ services:
 #     - nginx:42
     networks:
       - network
+    env_file:
+      - .env
     ports:
       - "443:443"
 

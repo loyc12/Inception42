@@ -19,18 +19,17 @@ RUN apt-get -y install \
 # Deletes the cache and the package lists
 RUN rm -rf /var/lib/apt/lists/*
 
-COPY www.conf /etc/php/7.3/fpm/pool.d/
-
 # Downloads wp-cli.phar, which is the command line interface for WordPress
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
 # Copies the .conf in the html directory
-COPY ./www.conf /etc/php/7.3/fpm/pool.d/
+COPY ./www.conf /etc/php/7.4/fpm/pool.d/
 
 # Creates the directory for the socket file
 RUN mkdir /run/php
+RUN chmod 777 /run/php
 
 # Sets the port to be used by the container
 EXPOSE 9000
@@ -46,6 +45,6 @@ RUN chmod +x /usr/local/bin/init.sh
 
 # Launches PHP-FPM in the forground and not as a daemon
 # This means that the process will not be detached from the terminal
-CMD ["/bin/sh/php-fpm", "-F"]
+#CMD [ "/usr/sbin/php-fpm7.4", "-F" ]
 
 # WIP

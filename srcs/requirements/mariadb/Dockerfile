@@ -26,8 +26,11 @@ RUN chmod 777 /var/run/mysqld
 # port used
 EXPOSE 3306
 
+ENV MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PSWD}"
+ENV MYSQL_PASSWORD="${MYSQL_PSWD}"
+
 # Sets the init script as the entrypoint, which means it will be executed when the container is started
-ENTRYPOINT [ "/init.sh" ]
+ENTRYPOINT [ "/usr/local/bin/init.sh" ]
 
 # Launches mariadb and enables the database to listen globally
 # Was prevented to listen globally before ( see mariadb.conf ) to avoid conflicts with other containers
