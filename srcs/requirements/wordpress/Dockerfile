@@ -38,14 +38,14 @@ EXPOSE 9000
 # CD to the html directory
 WORKDIR /var/www/html/
 
-# Launches PHP-FPM in the forground and not as a daemon
-# This means that the process will not be detached from the terminal
-CMD ["/usr/sbin/php-fpm7.3", "-F"]
-
 # Copies the init script, sets its permissions and makes it the entrypoint
 # This means it will be executed when the container is started
 COPY ./init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/init.sh
-ENTRYPOINT ["/usr/local/bin/init.sh"]
+#ENTRYPOINT ["/usr/local/bin/init.sh"]
+
+# Launches PHP-FPM in the forground and not as a daemon
+# This means that the process will not be detached from the terminal
+CMD ["/bin/sh/php-fpm", "-F"]
 
 # WIP

@@ -12,6 +12,9 @@ DEFAULT_GOAL: all
 		run re \
 		clear clean \
 
+# add -d to make it run in the background
+FLAGS = -f
+
 #------------------------------------------------------------------------------#
 #                                 BASE TARGETS                                 #
 #------------------------------------------------------------------------------#
@@ -23,20 +26,20 @@ run: build
 build: up
 up:
 	@echo "$(YELLOW)\nStarting all services\n $(DEFCOL)"
-	$(HIDE) docker compose -f ./srcs/docker-compose.yml up -d --build
+	$(HIDE) docker compose $(FLAGS) ./srcs/docker-compose.yml up --build
 	@echo "$(GREEN)\nAll services up and running\n $(DEFCOL)"
 
 close: down
 down:
 	@echo "$(YELLOW)\nStopping all services\n $(DEFCOL)"
-	$(HIDE) docker compose -f ./srcs/docker-compose.yml down
+	$(HIDE) docker compose $(FLAGS) ./srcs/docker-compose.yml down
 	@echo "$(MAGENTA)\nAll services down\n $(DEFCOL)"
 
 rerun: re
 re:
 	@echo "$(YELLOW)\nRestarting all services\n $(DEFCOL)"
-	$(HIDE) docker compose -f ./srcs/docker-compose.yml down
-	$(HIDE) docker compose -f ./srcs/docker-compose.yml up -d --build
+	$(HIDE) docker compose $(FLAGS) ./srcs/docker-compose.yml down
+	$(HIDE) docker compose $(FLAGS) ./srcs/docker-compose.yml up --build
 	@echo "$(GREEN)\nAll services up and running\n $(DEFCOL)"
 
 #------------------------------------------------------------------------------#

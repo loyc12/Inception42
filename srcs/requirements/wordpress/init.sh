@@ -15,12 +15,16 @@ else
 
 	# imports the .env variables
 	sed -i "s/username_here/${LOGIN}/g" wp-config-sample.php
-	sed -i "s/password_here/$MYSQL_PSWD/g" wp-config-sample.php
-	sed -i "s/localhost/$MYSQL_HOST_NAME/g" wp-config-sample.php
-	sed -i "s/database_name_here/$MYSQL_DTBS_NAME/g" wp-config-sample.php
+	sed -i "s/password_here/${MYSQL_PSWD}/g" wp-config-sample.php
+	sed -i "s/localhost/${MYSQL_HOST_NAME}/g" wp-config-sample.php
+	sed -i "s/database_name_here/${MYSQL_DTBS_NAME}/g" wp-config-sample.php
 	cp wp-config-sample.php wp-config.php
 
 fi
+
+# Launches PHP-FPM in the forground and not as a daemon
+# This means that the process will not be detached from the terminal
+# php-fpm -F -R
 
 ############################### V - WIP - V ###############################
 #
@@ -47,8 +51,5 @@ fi
 # 	wp core install --allow-root --url="${DOMAIN_NAME}" --title="${WP_TITLE}" --admin_name="${LOGIN}_admin" --admin_password="${WP_DTBS_PSWD}" --skip-email
 # 	wp user create --allow-root "${LOGIN}" "${WP_USER_EMAIL}" --user_pass="${WP_USER_PSWD}" --role=author
 # fi
-
- /usr/sbin/php-fpm7.4 -F
-
 
 # WIP

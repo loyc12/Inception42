@@ -5,7 +5,7 @@ mysql_install_db
 
 # checks if the database exists
 
-if [ -d "/var/lib/mysql/$MYSQL_DTBS_NAME" ]
+if [ -d "/var/lib/mysql/${MYSQL_DTBS_NAME}" ]
 then
 	echo "Database already exists"
 else
@@ -26,7 +26,7 @@ Y
 _EOF_
 
 # Initiates the database via the mysql cli ( called via mysql -uroot)
-mysql -uroot --bootstrap << _EOF_
+mysql --user=root --bootstrap << _EOF_
 
 # The flush allows the sql tables to be updated automatically when they are modified
 echo "FLUSH PRIVILEGES;" | mysql -uroot
@@ -43,6 +43,7 @@ echo "GRANT ALL PRIVILEGES ON '${MYSQL_DTBS_NAME}'.* TO '${USER_NAME}'@'%' IDENT
 echo "FLUSH PRIVILEGES;" | mysql -uroot
 
 _EOF_
+
 fi
 
 exec mysqld_safe

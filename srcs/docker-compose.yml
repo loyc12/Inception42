@@ -22,7 +22,7 @@ services:
   # - This service is used as a database server
   mariadb:
 
-    restart: always
+    #restart: always
     container_name: mariadb
     build:
       context: ./requirements/mariadb/
@@ -50,8 +50,6 @@ services:
       - network
     env_file:
       - .env
-#   ports:
-#     - "443:443"
     depends_on:
       - mariadb
 
@@ -66,7 +64,7 @@ volumes:
 
   # - This volume is used to keep the data of the database
   mariadb_data:
-    name: mariadbdb
+    name: mariadb
     driver: local
     driver_opts:
       device: /home/llord/data/mariadb
