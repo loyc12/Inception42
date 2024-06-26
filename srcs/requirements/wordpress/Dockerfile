@@ -11,17 +11,17 @@ RUN apt-get -y install \
 	php \
 	php-fpm \
 	php-cli \
-	mariadb-server \
 	mariadb-client \
-	php-mysql \
-	redis \
-	php-redis
+	mariadb-server \
+	php-mysql
 
 	# TODO : remove me
 	#php-cgi \
 	#php-pdo \
 	#php-gd \
 	#php-mbstring \
+	#redis \
+	#php-redis
 
 # Deletes the cache and the package lists
 RUN rm -rf /var/lib/apt/lists/*
