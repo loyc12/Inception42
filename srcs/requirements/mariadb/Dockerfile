@@ -1,7 +1,7 @@
 FROM debian:buster
 
 # Installs dependencies
-RUN apt-get update && apt-get -y upgrade
+RUN apt-get update -y && apt-get -y upgrade
 RUN apt-get install -y mariadb-server
 RUN apt-get install -y mariadb-client
 
@@ -9,19 +9,18 @@ RUN apt-get install -y mariadb-client
 RUN rm -rf /var/lib/apt/lists/*
 
 # Copies the .sh and .conf files
-COPY ./init.sh /usr/local/bin/
-COPY ./mariadb.conf /etc/mysql/mariadb.d
+COPY ./init.sh init.sh
+COPY ./mariadb.conf /etc/mysql/mariadb.conf
 
 # Sets appropriate permissions
-RUN chmod +x /usr/local/bin/init.sh
-RUN chmod 777 /etc/mysql/mariadb.d
+RUN chmod +x /init.sh
+RUN chmod 777 /etc/mysql/mariadb.conf
 
+# TODO : remove me ?
 # Allows the mysql daemon to run
-# Purges and re-creates /var/lib/mysql with appropriate ownership
 # Ensures that /var/run/mysqld (used for socket and lock files) is always writable
-RUN mkdir -p  /var/run/mysqld
-RUN chown -R  mysql:mysql /var/run/mysqld
-RUN chmod 777 /var/run/mysqld
+#RUN mkdir -p  /var/run/mysqld
+#RUN chmod 777 /var/run/mysqld
 
 # port used
 EXPOSE 3306
@@ -30,7 +29,7 @@ ENV MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PSWD}"
 ENV MYSQL_PASSWORD="${MYSQL_PSWD}"
 
 # Sets the init script as the entrypoint, which means it will be executed when the container is started
-ENTRYPOINT [ "/usr/local/bin/init.sh" ]
+ENTRYPOINT [ "/init.sh" ]
 
 # Launches mariadb and enables the database to listen globally
 # Was prevented to listen globally before ( see mariadb.conf ) to avoid conflicts with other containers

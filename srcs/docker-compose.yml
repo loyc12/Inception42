@@ -5,15 +5,12 @@ services:
 
   # - This service is used as a web server
   nginx:
-
     restart: always
     container_name: nginx
     build:
       context: ./requirements/nginx/
     volumes:
       - ./data/wordpress:/var/www/html
-#   image:
-#     - nginx:42
     networks:
       - network
     env_file:
@@ -23,35 +20,33 @@ services:
 
   # - This service is used as a database server
   mariadb:
-
-    #restart: always
+    restart: always
     container_name: mariadb
     build:
       context: ./requirements/mariadb/
-#   image:
-#     - mariadb:42
     volumes:
       - ./data/mariadb:/var/lib/mysql
     networks:
       - network
     env_file:
       - .env
+    ports:
+      - 3306:3306
 
   # - This service is used as a content management system
   wordpress:
-
     restart: always
     container_name: wordpress
     build:
       context: ./requirements/wordpress/
-#   image:
-#     - wordpress:42
     volumes:
       - ./data/wordpress:/var/www/html
     networks:
       - network
     env_file:
       - .env
+    ports:
+      - 9000:9000
     depends_on:
       - mariadb
 

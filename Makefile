@@ -1,5 +1,6 @@
 include Settings.mk
 include Colours.mk
+include srcs/.env
 
 #------------------------------------------------------------------------------#
 #                                   GENERICS                                   #
@@ -63,4 +64,8 @@ clean: down
 	$(HIDE) if [ "$$(docker network ls -q | wc -l)" -gt 3 ]; then \
 		docker network rm $$(docker network ls -q | sed -n '3p'); \
 	fi
-	@echo "$(RED)\nAll services removed\n $(DEFCOL)"
+	@echo "$(RED)All services removed\n $(DEFCOL)"
+
+	@echo "$(YELLOW)\nRemoving /data directory\n $(DEFCOL)"
+	$(HIDE) sudo --prompt=$(BASE_PSWD)'\n' rm -rf srcs/data
+	@echo "$(RED)/data directory removed\n $(DEFCOL)\n"

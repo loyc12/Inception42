@@ -1,7 +1,7 @@
 FROM	debian:buster
 
 # Installs dependencies
-RUN	apt-get update && apt-get -y upgrade
+RUN	apt-get update -y && apt-get -y upgrade
 RUN	apt-get install -y nginx
 RUN apt-get install -y openssl
 
