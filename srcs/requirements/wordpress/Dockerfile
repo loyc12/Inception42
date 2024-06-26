@@ -6,11 +6,12 @@ ENV DEBIAN_FRONTEND noninteractive
 # Installs dependencies
 RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y install \
-	curl \
+	wget \
 	bash \
 	php \
 	php-fpm \
 	php-cli \
+	mariadb-server \
 	mariadb-client \
 	php-mysql \
 	redis \
@@ -26,16 +27,12 @@ RUN apt-get -y install \
 RUN rm -rf /var/lib/apt/lists/*
 
 # Downloads wp-cli.phar, which is the command line interface for WordPress
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
 # Copies the .conf in the html directory
 COPY ./www.conf /etc/php/7.3/fpm/pool.d/
-
-# Creates the directory for the socket file
-RUN mkdir /run/php
-RUN chmod 777 /run/php
 
 # Sets the port to be used by the container
 EXPOSE 9000
