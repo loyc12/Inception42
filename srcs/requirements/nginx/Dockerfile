@@ -9,7 +9,7 @@ RUN apt-get install -y openssl
 RUN	rm -rf /var/lib/apt/lists/*
 
 # Sets up the ssl certificate
-RUN mkdir /etc/nginx/ssl
+RUN mkdir -p /etc/nginx/ssl
 RUN chmod 777 /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
        -out "/etc/nginx/ssl/llord.crt" \
@@ -17,7 +17,7 @@ RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
        -subj "/C=CA/ST=Quebec/L=Quebec/O=42_School/OU=42_Quebec/CN=llord.42.fr/"
 
 # Copies the nginx configuration file
-COPY ./nginx.conf /etc/nginx/conf.d/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Creates the directory for the socket file
 RUN mkdir -p  /run/nginx

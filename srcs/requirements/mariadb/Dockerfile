@@ -9,8 +9,8 @@ RUN apt-get install -y mariadb-client
 RUN rm -rf /var/lib/apt/lists/*
 
 # Copies the .sh and .conf files
-COPY ./init.sh init.sh
-COPY ./mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY init.sh init.sh
+COPY mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Sets appropriate permissions
 RUN chmod +x /init.sh
