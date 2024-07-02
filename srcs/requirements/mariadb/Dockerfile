@@ -3,7 +3,7 @@ FROM debian:buster
 # Installs dependencies
 RUN apt-get update -y && apt-get -y upgrade
 RUN apt-get install -y mariadb-server
-RUN apt-get install -y mariadb-client
+#RUN apt-get install -y mariadb-client
 
 # Deletes the cache and the package lists
 RUN rm -rf /var/lib/apt/lists/*
@@ -23,9 +23,6 @@ RUN chmod 777 /var/run/mysqld
 
 # port used
 EXPOSE 3306
-
-ENV MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PSWD}"
-ENV MYSQL_PASSWORD="${MYSQL_USER_PSWD}"
 
 # Sets the init script as the entrypoint, which means it will be executed when the container is started
 ENTRYPOINT [ "/init.sh" ]

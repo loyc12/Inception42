@@ -7,6 +7,8 @@ then
 	service php7.3-fpm stop
 fi
 
+#sleep 8
+
 # Checks if wp-config.php exists, and if so, skips the installation
 if [ ! -f /var/www/html/wp-config.php ]
 then

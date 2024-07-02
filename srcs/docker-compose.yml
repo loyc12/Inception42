@@ -3,43 +3,12 @@
 # - These services allow the application to run in a containerized environment
 services:
 
-  # - This service is used as a database server
-  mariadb:
-    restart: always
-    container_name: mariadb
-    build:
-      context: ./requirements/mariadb/
-    volumes:
-      - ./data/mariadb:/var/lib/mysql
-    networks:
-      - network
-    env_file:
-      - .env
-    ports:
-      - 3306:3306
-
-  # - This service is used as a content management system
-  wordpress:
-    restart: always
-    container_name: wordpress
-    build:
-      context: ./requirements/wordpress/
-    volumes:
-      - ./data/wordpress:/var/www/html
-    networks:
-      - network
-    env_file:
-      - .env
-    ports:
-      - 9000:9000
-    depends_on:
-      - mariadb
-
   # - This service is used as a web server
   nginx:
     restart: always
     container_name: nginx
     build:
+      dockerfile: Dockerfile
       context: ./requirements/nginx/
     volumes:
       - ./data/wordpress:/var/www/html
@@ -52,17 +21,51 @@ services:
     depends_on:
       - wordpress
 
+  # - This service is used as a content management system
+  wordpress:
+    restart: always
+    container_name: wordpress
+    build:
+      dockerfile: Dockerfile
+      context: ./requirements/wordpress/
+    volumes:
+      - ./data/wordpress:/var/www/html
+    networks:
+      - network
+    env_file:
+      - .env
+    ports:
+      - 9000:9000
+    depends_on:
+      - mariadb
+
+  # - This service is used as a database server
+  mariadb:
+    restart: always
+    container_name: mariadb
+    build:
+      dockerfile: Dockerfile
+      context: ./requirements/mariadb/
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+    networks:
+      - network
+    env_file:
+      - .env
+    ports:
+      - 3306:3306
+
 # - This network are used to connect the services
 networks:
   network:
-    name: network
+
     driver: bridge
 
 # - These volumes are used to keep the data of the services persistant between restarts
 volumes:
 
   # - This volume is used to keep the data of the database
-  mariadb_data:
+  mariadb:
     name: mariadb
     driver: local
     driver_opts:
@@ -71,7 +74,7 @@ volumes:
       o: bind
 
   # - This volume is used to keep the data of the wordpress and nginx
-  wordpress_data:
+  wordpress:
     name: wordpress
     driver: local
     driver_opts:
