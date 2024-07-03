@@ -56,14 +56,14 @@ clean: down
 		docker stop $$(docker ps -qa); \
 		docker rm $$(docker ps -qa); \
 	fi
-	$(HIDE) if [ "$$(docker images -qa)" ]; then \
-		docker rmi -f $$(docker images -qa); \
-	fi
 	$(HIDE) if [ "$$(docker volume ls -q)" ]; then \
 		docker volume rm $$(docker volume ls -q); \
 	fi
 	$(HIDE) if [ "$$(docker network ls -q | wc -l)" -gt 3 ]; then \
 		docker network rm $$(docker network ls -q | sed -n '3p'); \
+	fi
+	$(HIDE) if [ "$$(docker images -qa)" ]; then \
+		docker rmi -f $$(docker images -qa); \
 	fi
 	@echo "$(RED)All services removed\n $(DEFCOL)"
 
@@ -74,5 +74,6 @@ clean: down
 # Removes EVERYTHING
 fclear: fclean
 fclean: clean
-	@echo "$(YELLOW)\nRemoving EVERYTHING\n $(DEFCOL)"
-	@bash nuke_it_all.sh
+	@echo "$(YELLOW)\nRemoving all caches\n $(DEFCOL)"
+	docker builder prune --all
+	@echo "$(RED)/caches removed\n $(DEFCOL)\n"
