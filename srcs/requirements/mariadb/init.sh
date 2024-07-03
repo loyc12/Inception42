@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Code to initiate the database if it doesn't exist yet, and give the needed perms either way
-chown -R mysql:"${MYSQL_HOST_NAME}" /var/lib/mysql
-mysql_install_db --datadir=/var/lib/mysql --user="${MYSQL_HOST_NAME}" --skip-test-db >> /dev/null
+chown -R mysql:${MYSQL_HOST_NAME} /var/lib/mysql
+mysql_install_db --datadir=/var/lib/mysql --user=${MYSQL_HOST_NAME} --skip-test-db >> /dev/null
 
 touch tmpfile.sql.fuckthatshit
 chmod 777 tmpfile.sql.fuckthatshit
@@ -24,7 +24,7 @@ echo "FLUSH PRIVILEGES;" >> tmpfile.sql.fuckthatshit
 
 # Initiates the database via the mysql cli ( TODO : add --silent )
 # Does not work with a heredoc because of mysql's cli shitty syntax requirements or some shit like that
-mysqld --user="${MYSQL_HOST_NAME}" --bootstrap < tmpfile.sql.fuckthatshit
+mysqld --user=${MYSQL_HOST_NAME} --bootstrap < tmpfile.sql.fuckthatshit
 
 rm -rf tmpfile.sql.fuckthatshit
 

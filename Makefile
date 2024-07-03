@@ -12,6 +12,7 @@ DEFAULT_GOAL: all
 		close down \
 		run re \
 		clear clean \
+		fclean fclear \
 
 # add -d to make it run in the background
 FLAGS = -f
@@ -67,5 +68,11 @@ clean: down
 	@echo "$(RED)All services removed\n $(DEFCOL)"
 
 	@echo "$(YELLOW)\nRemoving /data directory\n $(DEFCOL)"
-	$(HIDE) sudo --prompt=$(BASE_PSWD) rm -rf srcs/data
+	$(HIDE) sudo --prompt="TYPE ROOT PASSWORD" rm -rf srcs/data
 	@echo "$(RED)/data directory removed\n $(DEFCOL)\n"
+
+# Removes EVERYTHING
+fclear: fclean
+fclean: clean
+	@echo "$(YELLOW)\nRemoving EVERYTHING\n $(DEFCOL)"
+	@bash nuke_it_all.sh

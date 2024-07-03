@@ -13,14 +13,8 @@ RUN apt-get -y install \
 	php-mysql \
 	mariadb-client
 
-	# TODO : remove me
-	#bash \
-	#php-cgi \
-	#php-pdo \
-	#php-gd \
-	#php-mbstring \
-	#redis \
-	#php-redis
+# Deletes the cache and the package lists
+#RUN	rm -rf /var/lib/apt/lists/*
 
 # Copies the .conf in the html directory
 COPY www.conf /etc/php/7.3/fpm/pool.d/
@@ -41,6 +35,6 @@ EXPOSE 9000
 WORKDIR /var/www/html/
 
 # Makes the script the entrypoint, meaning it will be executed when the container starts
-ENTRYPOINT ["/init.sh"]
+ENTRYPOINT [ "/init.sh" ]
 
 # WIP

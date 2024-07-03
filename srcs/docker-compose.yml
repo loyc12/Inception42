@@ -58,7 +58,6 @@ services:
 # - This network are used to connect the services
 networks:
   network:
-
     driver: bridge
 
 # - These volumes are used to keep the data of the services persistant between restarts
@@ -69,15 +68,15 @@ volumes:
     name: mariadb
     driver: local
     driver_opts:
-      device: /home/llord/data/mariadb
       type: none
       o: bind
+      device: /home/llord/data/mariadb
 
   # - This volume is used to keep the data of the wordpress and nginx
   wordpress:
     name: wordpress
     driver: local
     driver_opts:
-      device: /home/llord/data/wordpress
       type: none
       o: bind
+      device: /home/llord/data/wordpress

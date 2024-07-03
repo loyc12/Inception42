@@ -3,10 +3,9 @@ FROM debian:buster
 # Installs dependencies
 RUN apt-get update -y && apt-get -y upgrade
 RUN apt-get install -y mariadb-server
-#RUN apt-get install -y mariadb-client
 
 # Deletes the cache and the package lists
-RUN rm -rf /var/lib/apt/lists/*
+#RUN rm -rf /var/lib/apt/lists/*
 
 # Copies the .sh and .conf files
 COPY init.sh init.sh
