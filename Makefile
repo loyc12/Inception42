@@ -60,7 +60,7 @@ clean: down
 		docker volume rm $$(docker volume ls -q); \
 	fi
 	$(HIDE) if [ "$$(docker network ls -q | wc -l)" -gt 3 ]; then \
-		docker network rm $$(docker network ls -q | sed -n '3p'); \
+		docker network rm $$(docker network ls -q | sed -n '4p'); \
 	fi
 	$(HIDE) if [ "$$(docker images -qa)" ]; then \
 		docker rmi -f $$(docker images -qa); \

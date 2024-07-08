@@ -9,11 +9,11 @@ services:
     container_name: nginx
     build:
       dockerfile: Dockerfile
-      context: ./requirements/nginx/
+      context: ./requirements/nginx
     volumes:
       - ./data/wordpress:/var/www/html
     networks:
-      - network
+      - inception_network
     env_file:
       - .env
     ports:
@@ -27,11 +27,11 @@ services:
     container_name: wordpress
     build:
       dockerfile: Dockerfile
-      context: ./requirements/wordpress/
+      context: ./requirements/wordpress
     volumes:
       - ./data/wordpress:/var/www/html
     networks:
-      - network
+      - inception_network
     env_file:
       - .env
     ports:
@@ -45,11 +45,11 @@ services:
     container_name: mariadb
     build:
       dockerfile: Dockerfile
-      context: ./requirements/mariadb/
+      context: ./requirements/mariadb
     volumes:
       - ./data/mariadb:/var/lib/mysql
     networks:
-      - network
+      - inception_network
     env_file:
       - .env
     ports:
@@ -57,7 +57,7 @@ services:
 
 # - This network are used to connect the services
 networks:
-  network:
+  inception_network:
     driver: bridge
 
 # - These volumes are used to keep the data of the services persistant between restarts
@@ -68,8 +68,8 @@ volumes:
     name: mariadb
     driver: local
     driver_opts:
-      type: none
       o: bind
+      type: none
       device: /home/llord/data/mariadb
 
   # - This volume is used to keep the data of the wordpress and nginx
@@ -77,6 +77,6 @@ volumes:
     name: wordpress
     driver: local
     driver_opts:
-      type: none
       o: bind
+      type: none
       device: /home/llord/data/wordpress

@@ -7,9 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y install \
 	wget \
-	php \
 	php-fpm \
-	php-cli \
 	php-mysql \
 	mariadb-client
 

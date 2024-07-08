@@ -14,16 +14,16 @@ RUN chmod 777 /etc/nginx/ssl
 
 # Sets up the ssl certificate
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-       -out /etc/nginx/ssl/llord.crt \
-       -keyout /etc/nginx/ssl/llord.key \
-       -subj "/C=CA/ST=Quebec/L=Quebec/O=42_School/OU=42_Quebec/CN=llord.42.fr/"
+       -out /etc/nginx/ssl/server.crt \
+       -keyout /etc/nginx/ssl/server.key \
+       -subj "/C=CA/ST=Quebec/L=Quebec/O=42_School/OU=42_Quebec/CN=llord.42.fr"
 
 # Copies the nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Creates the needed socket file directory
-RUN mkdir -p  /run/nginx
-RUN chmod 777 /run/nginx
+#RUN mkdir -p  /run/nginx
+#RUN chmod 777 /run/nginx
 
 # Port used by the container
 EXPOSE	443
