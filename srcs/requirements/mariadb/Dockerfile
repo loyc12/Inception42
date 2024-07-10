@@ -13,7 +13,7 @@ COPY mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Sets appropriate permissions
 RUN chmod +x /init.sh
-RUN chmod 600 /etc/mysql/mariadb.conf.d/50-server.cnf
+RUN chmod 777 /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Allows the mysql daemon to run
 # Ensures that /var/run/mysqld (used for socket and lock files) is always writable
@@ -25,6 +25,3 @@ EXPOSE 3306
 
 # Sets the init script as the entrypoint, which means it will be executed when the container is started
 ENTRYPOINT [ "/init.sh" ]
-
-# WIP
-
