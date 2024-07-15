@@ -28,10 +28,13 @@ if [ ! -f /var/www/html/wp-config.php ]
 then
 	echo "wp-config.php not found : installing wordpress"
 
-	# downloads wordpress and its config file
+	# Downloads wordpress and its config file
 	wp core download --allow-root --path=/var/www/html
+	# Creates the wp-config.php file
 	wp config create --allow-root --dbname="${MYSQL_DTBS_NAME}" --dbuser="${MYSQL_USER_NAME}" --dbpass="${MYSQL_USER_PSWD}" --dbhost="${WP_DTBS_HOST}"
+	# Installs wordpress
 	wp core install --allow-root --url="${DOMAIN_NAME}" --title="${WP_TITLE}" --admin_name="${WP_ADMIN_NAME}" --admin_password="${WP_ADMIN_PSWD}" --admin_email="${WP_ADMIN_EMAIL}" --skip-email
+	# Creates a default user
 	wp user create --allow-root "${WP_USER_NAME}" "${WP_USER_EMAIL}" --user_pass="${WP_USER_PSWD}" --role=author
 
 	echo "Wordpress installed"
