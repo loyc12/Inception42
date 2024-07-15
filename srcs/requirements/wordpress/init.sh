@@ -7,6 +7,18 @@ then
 	service php7.3-fpm stop
 fi
 
+if [[ ${WP_ADMIN_NAME,,} == *"admin"* ]]
+then
+	echo "Error: Username can't contain 'admin'"
+	exit
+fi
+
+if [[ ${WP_ADMIN_PSWD,,} == *${WP_NAME,,}* ]]
+then
+	echo "Error: Password can't contain the username"
+	exit
+fi
+
 # prevents worpress for overtaking the database's initilization ang getting error 2002
 # for some stupid reason, "depends on" doesn't do that automatically, contrary to what you'd expect
 sleep 10
