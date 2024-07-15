@@ -15,17 +15,6 @@ sleep 10
 if [ ! -f /var/www/html/wp-config.php ]
 then
 
-	# Prevents bypassing the password/name safety requirements
-	# The ,, operator makes the compared string lowercase
-	if [[ ${WP_ADMIN_NAME,,} == *"admin"* ]]; then
-		echo "Error: admin username cannot contain 'admin'"
-		exit
-	fi
-	if [[ ${WP_ADMIN_PSWD,,} == *${WP_ADMIN_NAME,,}* ]]; then
-		echo "Error: admin password cannot contain admin username"
-		exit
-	fi
-
 	# downloads wordpress and its config file
 	wp core download --allow-root --path=/var/www/html
 	wp config create --allow-root --dbname="${MYSQL_DTBS_NAME}" --dbuser="${MYSQL_USER_NAME}" --dbpass="${MYSQL_USER_PSWD}" --dbhost="${WP_DTBS_HOST}"

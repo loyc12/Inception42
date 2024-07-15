@@ -16,11 +16,10 @@ RUN apt-get -y install \
 
 # Copies the .conf in the html directory
 COPY www.conf /etc/php/7.3/fpm/pool.d/
-RUN chmod 777 /etc/php/7.3/fpm/pool.d/www.conf
 
 # Downloads wp-cli.phar, which is the command line interface for WordPress
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN chmod 777 wp-cli.phar
+RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
 # Copies the init script, sets its permissions
@@ -35,3 +34,5 @@ WORKDIR /var/www/html/
 
 # Makes the script the entrypoint, meaning it will be executed when the container starts
 ENTRYPOINT [ "/init.sh" ]
+
+# WIP

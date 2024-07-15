@@ -11,7 +11,7 @@ services:
       dockerfile: Dockerfile
       context: ./requirements/nginx
     volumes:
-      - ./data/wordpress:/var/www/html
+      - wordpress:/var/www/html
     networks:
       - inception_network
     env_file:
@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile
       context: ./requirements/wordpress
     volumes:
-      - ./data/wordpress:/var/www/html
+      - wordpress:/var/www/html
     networks:
       - inception_network
     env_file:
@@ -47,7 +47,7 @@ services:
       dockerfile: Dockerfile
       context: ./requirements/mariadb
     volumes:
-      - ./data/mariadb:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
       - inception_network
     env_file:
@@ -70,7 +70,7 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/llord/data/mariadb
+      device: /home/loyc/data/mariadb
 
   # - This volume is used to keep the data of the wordpress and nginx
   wordpress:
@@ -79,4 +79,4 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/llord/data/wordpress
+      device: /home/loyc/data/wordpress

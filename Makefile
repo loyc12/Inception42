@@ -2,6 +2,19 @@ include Settings.mk
 include Colours.mk
 include srcs/.env
 
+VOLUME_DIR=/home/loyc/data
+WORDPRESS_DIR=$(VOLUME_DIR)/wordpress
+MARIADB_DIR=$(VOLUME_DIR)/mariadb
+
+$(MARIADB_DIR): $(VOLUME_DIR)
+	$(HIDE) mkdir -p $(MARIADB_DIR)
+
+$(WORDPRESS_DIR): $(VOLUME_DIR)
+	$(HIDE) mkdir -p $(WORDPRESS_DIR)
+
+$(VOLUME_DIR):
+	$(HIDE) mkdir -p $(VOLUME_DIR)
+
 #------------------------------------------------------------------------------#
 #                                   GENERICS                                   #
 #------------------------------------------------------------------------------#
@@ -22,11 +35,10 @@ FLAGS = -f
 #------------------------------------------------------------------------------#
 
 # For standard compilation
-all: up
+all: run
 
-run: build
-build: up
-up:
+run: up
+up: $(MARIADB_DIR) $(WORDPRESS_DIR)
 	@echo "$(YELLOW)\nStarting all services\n $(DEFCOL)"
 	$(HIDE) docker compose $(FLAGS) ./srcs/docker-compose.yml up --build
 	@echo "$(GREEN)\nAll services up and running\n $(DEFCOL)"
@@ -38,7 +50,7 @@ down:
 	@echo "$(MAGENTA)\nAll services down\n $(DEFCOL)"
 
 rerun: re
-re:
+re: $(MARIADB_DIR) $(WORDPRESS_DIR)
 	@echo "$(YELLOW)\nRestarting all services\n $(DEFCOL)"
 	$(HIDE) docker compose $(FLAGS) ./srcs/docker-compose.yml down
 	$(HIDE) docker compose $(FLAGS) ./srcs/docker-compose.yml up --build
@@ -68,7 +80,7 @@ clean: down
 	@echo "$(RED)All services removed\n $(DEFCOL)"
 
 	@echo "$(YELLOW)\nRemoving /data directory\n $(DEFCOL)"
-	$(HIDE) sudo --prompt="TYPE ROOT PASSWORD" rm -rf srcs/data
+	$(HIDE) sudo rm -rf $(WORDPRESS_DIR) $(MARIADB_DIR) $(VOLUME_DIR)
 	@echo "$(RED)/data directory removed\n $(DEFCOL)\n"
 
 # Removes EVERYTHING
