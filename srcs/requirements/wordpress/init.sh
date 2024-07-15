@@ -9,23 +9,24 @@ fi
 
 if [[ ${WP_ADMIN_NAME,,} == *"admin"* ]]
 then
-	echo "Error: Username can't contain 'admin'"
+	echo "Error: the admin username cannot contain the word 'admin'"
 	exit
 fi
 
-if [[ ${WP_ADMIN_PSWD,,} == *${WP_NAME,,}* ]]
+if [[ ${WP_ADMIN_PSWD,,} == *${WP_ADMIN_NAME,,}* ]]
 then
-	echo "Error: Password can't contain the username"
+	echo "Error: the admin password cannot contain the admin username"
 	exit
 fi
 
 # prevents worpress for overtaking the database's initilization ang getting error 2002
 # for some stupid reason, "depends on" doesn't do that automatically, contrary to what you'd expect
-sleep 10
+sleep 12
 
 # Checks if wp-config.php exists, and if so, skips the installation
 if [ ! -f /var/www/html/wp-config.php ]
 then
+	echo "wp-config.php not found : installing wordpress"
 
 	# downloads wordpress and its config file
 	wp core download --allow-root --path=/var/www/html

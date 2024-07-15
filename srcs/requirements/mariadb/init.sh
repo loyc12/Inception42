@@ -26,8 +26,10 @@ mysql_install_db --datadir=/var/lib/mysql --user=mysql --skip-test-db >> /dev/nu
 #
 #rm -rf tmpfile.sql.fts
 
-mysqld --user=mysql --bootstrap --silent << _EOF_
-
+# Initiates the database via the following script
+# TODO : add  "--silent-startup"
+echo "Initiating database"
+mysqld --user=mysql --bootstrap << _EOF_
 FLUSH PRIVILEGES;
 
 CREATE USER IF NOT EXISTS \`${MYSQL_USER_NAME}\`@'%' IDENTIFIED BY '${MYSQL_USER_PSWD}';
@@ -37,7 +39,6 @@ ALTER USER \`root\`@\`localhost\` IDENTIFIED BY '${MYSQL_ROOT_PSWD}';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
-
 _EOF_
 
 # In the above script, the "`" indicates a mysql variable/tablename, while the "'" indicates a string
@@ -48,5 +49,4 @@ _EOF_
 # - Forces the database to update the privileges
 
 echo "Database initiated"
-
 exec mysqld_safe
