@@ -79,13 +79,13 @@ clean: down
 	fi
 	@echo "$(RED)All services removed\n $(DEFCOL)"
 
-	@echo "$(YELLOW)\nRemoving /data directory\n $(DEFCOL)"
+	@echo "$(YELLOW)\nRemoving volumes\n $(DEFCOL)"
 	$(HIDE) sudo rm -rf $(WORDPRESS_DIR) $(MARIADB_DIR) $(VOLUME_DIR)
-	@echo "$(RED)/data directory removed\n $(DEFCOL)\n"
+	@echo "$(RED)\nVolumes removed\n $(DEFCOL)\n"
 
 # Removes EVERYTHING
 fclear: fclean
 fclean: clean
 	@echo "$(YELLOW)\nRemoving all caches\n $(DEFCOL)"
 	docker builder prune --all
-	@echo "$(RED)/caches removed\n $(DEFCOL)\n"
+	@echo "$(RED)\nCaches removed\n $(DEFCOL)\n"
